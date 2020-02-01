@@ -11,16 +11,11 @@ const resolvers = {
         info : () => 'Prueba api con GraphQL',
         feed : () => links,
         link : (parent,args) => {
-            var ret=null;
-            links.forEach(
-                aux =>{                    
-                    if(aux.id == args.id) 
-                    {
-                        ret = aux;
-                    }
-                }
-            );            
-            return ret
+  
+             return links.find(element => { 
+                return element.id == args.id; 
+              });         
+            
         }
     },
     Mutation:{
@@ -44,7 +39,7 @@ const resolvers = {
 }
 
 const server = new GraphQLServer({
-    typeDefs:'./src/schema.graphql', 
+    typeDefs:'schema.graphql', 
     resolvers
 })
 server.start(()=> console.log('Server running on http://localhost:4000'))
