@@ -28,6 +28,23 @@ const resolvers = {
         links.push(link)
         return link
         },
+        deleteLink: (parent, args) => {
+            links.splice(
+                element =>{
+                    return element.id == args.id
+                }
+            ,1);
+        },
+        updateLink:(parent,args) => {
+  
+            return links.find(element => { 
+               if (element.id == args.id){
+                   element.description = args.description;
+                   return element;
+               }
+             });         
+           
+       }
         
 
     },
