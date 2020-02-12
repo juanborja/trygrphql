@@ -1,6 +1,10 @@
 const {GraphQLServer} = require ('graphql-yoga');
 const { prisma } = require('./generated/prisma-client')
-const resolvers = { 
+const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const User = require('./resolvers/User')
+const Link = require('./resolvers/Link')
+/*const resolvers = { 
     Query: {
         info : () => 'Prueba api con GraphQL',
         feed: (root, args, context, info) => {
@@ -42,16 +46,27 @@ const resolvers = {
         
 
     },
-   /* Link:{
+    Link:{
         id: (parent) => parent.id,
         description: (parent) => parent.description,
         url: (parent) => parent.url,
-    }*/
+    }
 }
-
+*/
+const resolvers = {
+    Query,
+    Mutation,
+    User,
+    Link
+  }
 const server = new GraphQLServer({
     typeDefs:'schema.graphql', 
     resolvers,
-    context: { prisma },
+    context: request => {
+        return {
+          ...request,
+          prisma,
+        }
+      },
 })
 server.start(()=> console.log('Server running on http://localhost:4000'))
